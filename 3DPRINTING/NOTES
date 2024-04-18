@@ -1,0 +1,111 @@
+https://tmuxcheatsheet.com/
+
+
+NOTE: kill the webserver of the normal auto-booted SAMUEL runtime before running this 
+
+cd /home/pi/RoboClubStore
+sudo bash ./MultiPurposePlatform/web/killWebServer.sh 2223
+cd /home/pi/Desktop/3DPRINTING
+
+//-------------------------------
+Setup octoprint as service:
+Create file : '/etc/systemd/system/octoprint.service'
+Copy contents from octoPrintserviceFile - this will ensure auto-boot
+OR run inline as service as detached
+
+//----------------------------------
+Octoprint intsalled via venv, info here:
+https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspberry-pi-os-debian/2337
+Run using:
+cd OctoPrint
+venv/bin/octoprint serve 
+
+To install on the venv:
+cd OctoPrint/venv
+source venv/bin/activate
+Access octoprint:
+http://jamiespi:5000/
+
+//----------------------------------
+FFMMPEG AND MQTT FIX
+pip install --force-reinstall "paho-mqtt<2"
+sudo apt-get install ffmpeg
+ffmpeg -version
+whereis ffmpeg => should be /usr/bin/ffmpeg 
+See ffmpegLoc.png for where to put this path on octoprint
+//----------------------------------
+
+
+Next install creality plugins: https://www.crealitycloud.com/post-detail/6225cf9dfc277e6f868d53ea IGNORE UPDATE REQUESTS!
+https://plugins.octoprint.org/plugins/crealitycloud/
+All three url links :
+https://github.com/crealitycloud/OctoPrint-Crealitycloud/archive/master.zip
+https://github.com/SimplyPrint/OctoPrint-Creality2xTemperatureReportingFix/archive/master.zip
+https://github.com/OllisGit/OctoPrint-DisplayLayerProgress/releases/download/1.26.0/master.zip
+
+
+CAMERA STREAMING
+//---------------------------
+# Tests/lookups
+lsusb
+ls /dev/*USB*
+v4l2-ctl --list-devices
+Test webcam: 
+ffmpeg -i /dev/video0 -r 25 -qscale 1 out.avi
+ffmpeg -i /dev/video2 -r 25 -qscale 1 out.avi
+
+sudo apt-get install motion
+sudo apt install v4l-utils
+//---------------------------
+
+
+MJPESTREAMER
+https://github.com/jacksonliam/mjpg-streamer/blob/master/mjpg-streamer-experimental/plugins/input_uvc/README.md
+//---------------------------
+apt-get update
+apt-get install git libv4l-dev libjpeg8-dev imagemagick cmake -y
+git clone git@github.com:jacksonliam/mjpg-streamer.git ~/mjpg-streamer
+cd ~/mjpg-streamer/mjpg-streamer-experimental
+make USE_LIBV4L2=true clean all
+sudo make DESTDIR=/usr install
+
+cd ~/mjpg-streamer/mjpg-streamer-experimental/
+NOTE: setting -f (fps) disabled mpeg low cpu option
+mjpg_streamer -i "input_uvc.so -f 30 -r 1920x1080 -d /dev/video0" -o "output_http.so -p 15151 -w ./www"
+mjpg_streamer -i "input_uvc.so -f 30 -r 1920x1080 -d /dev/video2" -o "output_http.so -p 15151 -w ./www"
+mjpg_streamer -i "input_uvc.so -f 30 -r 1920x1080 -d /dev/video3" -o "output_http.so -p 15151 -w ./www"
+
+HD Pro Webcam C920
+
+ (As per this guide to reduce CPU usage https://community.octoprint.org/t/i-see-high-cpu-usage-when-mjpg-streamer-is-running/202) -> v4l2-ctl --all
+
+mjpg_streamer -i "input_uvc.so  -r 1920x1080 -d /dev/video0" -o "output_http.so -p 15151 -w ./www"
+
+https://github.com/jacksonliam/mjpg-streamer/blob/master/mjpg-streamer-experimental/plugins/input_uvc/README.md
+
+https://github.com/jacksonliam/mjpg-streamer/blob/master/mjpg-streamer-experimental/plugins/output_http/README.md
+//---------------------------
+
+tmux order of exec:
+first tmux new -> end samual runtime as above, run camera stream
+second tmux new - > run octoprint as above
+third tmux detach x2 in seperate terminal
+//------------
+
+urls:
+mjpg:
+    http://jamiespi:15151/stream.html
+    http://jamiespi:15151/?action=stream
+    http://jamiespi:15151/?action=snapshot
+motion: 
+    http://jamiespi:15151/current - snapshot
+    http://jamiespi:15151 
+    ive http://jamiespi:8080 web interface
+
+Extern Ips
+http://optishell.duckdns.org:5000
+http://optishell.duckdns.org:15151/
+http://optishell.duckdns.org:15151/0/action/snapshot
+//-----------------------------------------
+GCODE BED VISUALISER
+https://github.com/jneilliii/OctoPrint-BedLevelVisualizer/blob/master/wiki/gcode-examples.md
