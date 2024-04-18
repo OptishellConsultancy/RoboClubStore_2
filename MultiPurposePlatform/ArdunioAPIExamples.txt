@@ -1,0 +1,92 @@
+RM = Return to function menu
+----------------------------------------------------------------------------------
+4WD commands
+<In>4WDY(Stop)
+<In>4WD[100]{100}FLAY(Stop) Front left advance, 100 speed, 100ms, stop after duration.
+
+<In>4WD[100]{100}FLA Front left advance, 100 speed, 100ms, DON'T stop after duration
+<In>4WD[100]FLA Front left advance, 100 speed, DON'T stop 
+
+FLA //Front Left Advance
+FRA //Front Right Advance
+BLA //Back Left Advance
+BRA //Back Right Advance
+FLB //Front Left Back
+FRB //Front Right Back
+BLB //Back Left Back
+BRB //Back Right Back
+Y = Stop after duration
+
+Examples
+
+//All forwards
+<In>4WD[100]FRA{1000}Y
+<In>4WD[100]FLA{1000}Y
+--
+<In>4WD[100]FRB{1000}Y
+<In>4WD[100]FLB{1000}Y
+//--All back..
+<In>4WD[100]BRA{1000}Y
+<In>4WD[100]BLA{1000}Y
+--
+<In>4WD[100]BRB{1000}Y
+<In>4WD[100]BLB{1000}Y
+
+[R] = Speed out of 255
+{R[0-255]} = Duration in ms
+----------------------------------------------------------------------------------
+6 axis control 
+
+<In>6Axis[JointName,Angle].[JointName,Angle].[JointName,Angle]
+
+E.g.
+<In>6Axis[B.45] Base 5 degrees
+<In>6Axis[BT.10] Base Tilt  40 degrees
+<In>6Axis[E.30] Elbow 70 degrees
+<In>6Axis[WE.10] Wrist Elevate 90 degrees
+<In>6Axis[WR.70] Wrist rotate 5 degrees
+<In>6Axis[C.10] Claw to 5 degrees 
+Or chain:
+<In>6Axis[WE.90].<In>6Axis[BT.40].<In>6Axis[WR.5]
+
+--------------------------------------------------
+Screen
+//TODO: FINISH
+<In>OLEDIMG[BITMAPDATA]{CONFIG} 
+<In>OLEDTXT['TEXT STRING']{CONFIG}
+
+Examples:
+<In>OLEDTXT[Goodbye world]{X:42,Y:32.S:1} (X,Y Position, text size)
+<In>OLEDTXT[Good Afternoon]{} (No config centeres the text, size of 1)
+//
+<In>OLEDIMG[BITMAPDATA]{X:0,Y:0.S:1} 
+
+-------------------------------------------------
+Get GPS
+[n] = the number of times to try and sample the GPS (It will take AT LEAST a few minutes to acheive a lock on first boot)
+{OLEDPRNT} = Optional arg for printing these coords to the display
+<Out>GPS{OLEDPRNT} //Print to terminal + oled screen, Sample 2 times
+<Out>GPS{} pr <Out>GPS//Print to terminal only
+<Out>GPS //Terminal only, one sample
+
+--------------------------------------------------
+Get Accell Mag
+<Out>AccMag[10]{OLEDPRNT}//Print to terminal + oled screen
+<Out>AccMag[10]{OLEDPRNT}//Print to terminal 
+<Out>AccMag //Terminal only, one sample
+<Out>AccMag[]
+
+--------------------------------------------------
+Ultrasonic Range finder
+<Out>UltSonc[10]{OLEDPRNT}//Print to terminal + oled screen
+<Out>UltSonc[10]{OLEDPRNT}//Print to terminal 
+<Out>UltSonc //Terminal only, one sample
+
+--------------------------------------------------
+
+Other:
+To exit the api interface :
+Type 'RM' (Root Menu) or 'EXIT' As a shortcut
+
+
+

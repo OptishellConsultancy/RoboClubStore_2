@@ -1,0 +1,11 @@
+<!-- templates/profile.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Hello there, {{ name }}!
+</h1>
+<a href = {{ url_for('main.serverRuntime') }}>Go to SAMUEL controls</a>
+
+{% endblock %}

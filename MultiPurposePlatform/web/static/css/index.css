@@ -1,0 +1,283 @@
+body {
+  background-color: rgb(0, 0, 0);
+}
+
+:root {
+  --yellow-color: #fcee09;
+  --red-color: #ff003c;
+  --black-color: #050a0e;
+  --blue-color: #00f0ff;
+}
+
+.title {
+  background-color: #fcee09;
+}
+
+:checked {
+  background-position: 14px;
+}
+
+.gridsContainer {
+  display: flex;
+  align-items: center;
+}
+
+.grid1-container {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 3px;
+  grid-gap: 1px;
+  column-gap: 1px;
+}
+
+.grid1-container>div {
+  outline: 2px #fcee09 solid;
+  color: chartreuse;
+}
+
+.grid2-container {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 3px;
+  grid-gap: 1px;
+  column-gap: 1px;
+}
+
+.grid2-container>div {
+  outline: 2px #fcee09 solid;
+  color: chartreuse;
+}
+
+.mainToggles {
+  display: flex;
+  flex-direction: row;
+}
+
+#subTaskToggles {
+  display: flex;
+  flex-direction: row;
+}
+
+/* toggle */
+.toggle {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle .label {
+  text-align: center;
+  padding-left: 2px;
+  color: #fcee09;
+}
+
+
+/* toggleSub */
+#toggleSub {
+  display: flex;
+  flex-direction: column;
+}
+
+#toggleSub .label {
+  text-align: center;
+  padding-left: 2px;
+  color: rgb(30, 201, 95);
+  font-size: 10;
+}
+
+/* camContent */
+
+#camContent {
+  width: 800px;
+  height: 600px;
+  display: block;
+}
+
+
+#doPanTilt {
+  padding-top: 10px;
+  width: 300px;
+  display: block;
+}
+
+#doPanTilt #doPanTiltForm {
+  display: inline-block;
+  display: inline-block;
+
+}
+
+#doPanTilt #doPanTiltForm #fname {
+  color: #ff003c;
+}
+
+/* textToSpeech */
+
+#textToSpeech {
+  padding-top: 10px;
+  width: 300px;
+  display: block;
+}
+
+#textToSpeech #textToSpeechForm {
+  display: inline-block;
+
+}
+
+#textToSpeech #textToSpeechForm #fname {
+  color: #ff003c;
+}
+
+#textToSpeech #textToSpeechForm #ftextField {
+  width: 125%;
+  align-content: left;
+}
+
+/* oLEDDisplayTxt */
+
+#oLEDDisplayTxt {
+  padding-top: 10px;
+  width: 300px;
+  display: block;
+}
+
+#oLEDDisplayTxt #oledDisplayTextForm {
+  display: inline-block;
+
+}
+
+#oLEDDisplayTxt #oledDisplayTextForm #fname {
+  color: #ff003c;
+}
+
+#oLEDDisplayTxt #oledDisplayTextForm #ftextField {
+  width: 100%;
+  align-content: left;
+}
+
+
+/* ultraSonicReading */
+
+#ultraSonicReading {
+  padding-top: 10px;
+  width: 300px;
+  display: block;
+}
+
+#ultraSonicReading #ultraSonicReadingForm {
+  display: inline-block;
+  width: 100%;
+  align-content: left;
+}
+
+
+#ultraSonicReading #ultraSonicReadingForm #ftextDistance {
+  resize: none;
+  overflow: hidden
+}
+
+#ultraSonicReading #ultraSonicReadingForm #ftextTemp {
+  resize: none;
+  overflow: hidden
+}
+
+/* AccMag */
+
+#accMagReading {
+  padding-top: 10px;
+  width: 300px;
+  display: block;
+}
+
+#accMagReading #accMagReadingForm {
+  display: inline-block;
+
+  align-content: left;
+}
+
+#accMagReading #accMagReadingForm #ftextAccel {
+  resize: none;
+  overflow: hidden
+}
+
+#accMagReading #accMagReadingForm #ftextMag {
+  resize: none;
+  overflow: hidden
+}
+
+#accMagReading #accMagReadingForm #ftextHeading {
+  resize: none;
+  overflow: hidden
+}
+
+/* FourWDControl */
+
+#FourWDControl {
+  padding-top: 10px;
+  width: 500px;
+  display: block;
+}
+
+#FourWDControl #FourWDControlForm {
+  display: inline-block;
+
+  align-content: left;
+}
+
+/* DOF6ArmControl */
+#DOF6ArmControl {
+  padding-top: 10px;
+  width: 520px;
+  display: block;
+}
+
+#DOF6ArmControl #DOF6ArmControlForm {
+  display: inline-block;
+
+  width: 100%;
+  align-content: left;
+}
+
+#DOF6ArmControl #DOF6ArmControlForm #presets {
+  display: inline-block;
+}
+
+
+
+/* spotifyInfo */
+
+#spotifyInfo {
+  background-color: rgb(2, 17, 31);
+  width: 550px;
+  height: 380px;
+  padding: 5PX;
+  border-radius: 3px;
+  border-style: solid;
+  border-color: #fcee09;
+  color: #fcee09;
+  display: none;
+}
+
+#spotifyInfo #imgSelectDeviceHelp {
+  border-color: greenyellow;
+  border-radius: 3px;
+  border-style: solid;
+  left: 50px;
+  position: absolute;
+}
+
+/* controls  */
+.controls {
+  padding-left: 0px;
+}
+
+.controls .functionsContainer {
+
+  grid-template-areas: "b1 b2 b3"
+    "b4 b5 b5";
+  display: grid;
+  width: 500px;
+  grid-gap: 5px;
+}

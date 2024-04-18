@@ -1,0 +1,318 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='js/index.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- https://dev.to/leandroruel/how-to-make-a-cyberpunk-2077-button-with-css-c9m-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/cyberpunkButton.css') }}">
+    <!-- https://developpaper.com/css-steps-to-achieve-the-visual-effect-of-cyberpunk-2077-style/-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/cyberGlitchTitle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/collapseToggle.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/textBox.scss') }}"> -->
+
+    <link rel="stylesheet" href="static/css/leaflet.css" />
+    <link rel="stylesheet" href="static/css/screen.css" />
+    <link rel="stylesheet" href="static/css/MarkerCluster.css" />
+    <link rel="stylesheet" href="static/css/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="static/css/leaflet-search.min.css" />
+    <link rel="stylesheet" href="static/css/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="static/css/styles.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
+    <script src="static/js/leaflet.js"></script>
+    <script src="static/js/leaflet.markercluster.js"></script>
+    <script src="static/js/leaflet-search.min.js"></script>
+    <script src="static/js/leaflet.smoothmarkerbouncing.js"></script>
+    <script src="static/js/L.Control.Locate.min.js"></script>
+    <script src="static/js/Control.FullScreen.js"></script>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
+</head>
+
+<body>
+    <h1 class="cyberpunk glitched title">
+        SAMUEL (Six Axis, 4WD Multi pUrposE pLatform)
+    </h1>
+    <div class="mainToggles">
+        <span class="toggle">
+            <label class="label">LiveCamera</label>
+            <input checked="camToggled" type="checkbox" class="collapsible"
+                onclick='hndlToggle(this,"camContent", "camToggled")'></input>
+        </span>
+        <span class="toggle">
+            <label class="label">GPS</label>
+            <input checked="gpsToggled" type="checkbox" class="collapsible"
+                onclick='hndlToggle(this,"map","gpsToggled")'></input>
+        </span>
+        <span class="toggle">
+            <label class="label">Spotify info</label>
+            <input type="checkbox" class="collapsible"
+                onclick='hndlToggle(this,"spotifyInfo","spotifyPlayerToggled")'></input>
+        </span>
+        <span class="toggle">
+            <label class="label">OLED Text</label>
+            <input checked="oLEDDisplayToggled" type="checkbox" class="collapsible"
+                onclick='hndlToggle(this,"oLEDDisplayTxt","oLEDDisplayToggled")'></input>
+        </span>
+        <span class="toggle">
+            <label class="label">OpenCV analysis enabled</label>
+            <input type="checkbox" class="collapsible"
+                onclick='toggleocvDNNAnalysis(this,"openCVAnalysisDisplayTxt","openCVAnalysisToggled")' ckecked></input>
+        </span>
+    </div>
+
+    <div id="subTaskToggles">
+        <span id="toggleSub">
+            <label class="label">OLED GPS Display</label>
+            <input id="GPSOLEDPRNTToggle" type="checkbox" class="collapsible" onclick="toggleGPSOLEDDisplay()"></input>
+        </span>
+    </div>
+
+
+    <!--spotifyInfo-->
+    <div id="spotifyInfo">
+        <a href="https://github.com/dtcooper/raspotify" target="_blank">Raspotify github page</a>
+        <p>
+            <li>.Raspotify library exposed this platform to the internet as a remote device for playing music</li>
+            <li>.The file '/etc/default/raspotify' contains an account config that exposes the device for Jamie's
+                account</li>
+            <li>.On the desktop/mobile spotify app navigate to 'spotify-connect' symbol as follows:</li>
+            <li>Finally, select and play audio as normal through the platform!</li>
+        </p>
+        <img id="imgSelectDeviceHelp" src="static/images/Spotify_SetDeviceImg.png "
+            alt="selecting correct remote device image" width="300">
+
+    </div>
+
+    <!--Map-->
+    <div id="map">
+    </div>
+    <script src="static/js/mapApp.js"></script>
+
+    <!-- Camera -->
+    <div id="camContent">
+            <div class="img-container">
+                <img src="{{ url_for('serverRuntime.video_feed') }}"  width="100%">
+            </div>
+    </div>
+
+    <div class="gridsContainer">
+        <div class="grid1-container">
+
+            <!--Cam control-->
+
+            <div id="doPanTilt">
+                <form id="doPanTiltForm" <label id="fname">Camera Pan/Tilt input (±90.0)</label><br>
+                    <div id='panContainer'>
+                        <input type="range" step="1.0" min="-90.0" max="90.0" id="pan" name="pan" value="0"
+                            onChange="onValueRangeChange(this.value,'#doPanTilt #doPanTiltForm #panContainer #panLabel', 'Pan (', ')')">
+                        <label id="panLabel" for="pan">Pan(0)</label>
+                    </div>
+                    <div id='tiltContainer'>
+                        <input type="range" step="1.0" min="-90.0" max="90.0" name="tilt" value="0"
+                            onChange="onValueRangeChange(this.value,'#doPanTilt #doPanTiltForm #tiltContainer #tiltLabel', 'Tilt (', ')')">
+                        <label id="tiltLabel" for="tilt">Tilt(0)</label>
+                    </div>
+                    </textarea>
+                </form>
+            </div>
+
+
+
+            <!--text to speech-->
+            <div id="textToSpeech">
+                <form id="textToSpeechForm">
+                    <label id="fname">Text input for speech:</label><br>
+                    <textarea id="ftextField" name="string" rows="1" oninput="auto_height(this)"> Hello, I'm SAMUEL.</textarea>
+                    <button id="submitBtn" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <!--micRecAndPlayback-->
+            <div id="micRecAndPlayback">
+                <form id="micRecForm" <label id="fname">Mic recording</label><br>
+                    <input type="Number" min="0" max="600" value="5" name="recsec" id="recsec">
+                    <label id="recsecLabel" for="recsec">RecordDuration(seconds)</label>
+                    <button id="submitBtn" type="submit">Do Record</button>
+                </form>
+                <form id="micRecPlaybackLocalForm" <label id="fname">Playback via platform speaker</label><br>
+                    <button id="stopPlayback" type="button" onclick="dolocalPlayback(event)">Play</button>
+                </form>
+                <form id="micRecPlaybackOnWebForm" <label id="fname">Playback via platform speaker</label><br>
+                    <div style="flex-direction: column; display: flex">
+                        <button id="submitBtn" type="button" onclick="getRecordingRaw(event)">load raw audio</button>
+                        <!-- <button id="submitBtn" type="button" onclick="getRecordingDeNoised(event)">get cleaned audio</button> -->
+                        <audio id="audio" controls="controls"> </audio>
+                    </div>
+                </form>
+            </div>
+
+            <!--oLEDTxt write-->
+            <div id="oLEDDisplayTxt">
+                <form id="oledDisplayTextForm" <label id="fname">Text input for OLED Display:</label><br>
+                    <textarea id="ftextField" name="string" rows="1"
+                        oninput="auto_height(this)">Can you read this, human?</textarea>
+                    <div id='xContainer'>
+                        <input type="range" step="1" min="0" max="128" id="x" name="x" value="20"
+                            onChange="onValueRangeChange(this.value,'#oLEDDisplayTxt #oledDisplayTextForm #xContainer #xLabel', 'X: (', ')')">
+                        <label id="xLabel" for="x">X:(20)</label>
+                    </div>
+                    <div id='yContainer'>
+                        <input type="range" step="1" min="0" max="64" name="y" value="32"
+                            onChange="onValueRangeChange(this.value,'#oLEDDisplayTxt #oledDisplayTextForm #yContainer #yLabel', 'Y: (', ')')">
+                        <label id="yLabel" for="y">Y:(32)</label>
+                    </div>
+                    <div id='fSizeContainer'>
+                        <input type="range" step="1" min="1" max="5" id="s" name="s" value="1"
+                            onChange="onValueRangeChange(this.value,'#oLEDDisplayTxt #oledDisplayTextForm #fSizeContainer #fSizeLabel', 'Font Size: (', ')')">
+                        <label id="fSizeLabel" for="s">Font Size:(1)</label>
+                    </div>
+                    <button id="submitBtn" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <!--Get Ultrasonic reading-->
+            <div id="ultraSonicReading">
+                <form id="ultraSonicReadingForm" <label id="fname">Ultrasonic reading</label><br>
+
+                    <textarea id="ftextDistance" name="string" rows="1" readonly>cm</textarea>
+                    <label id="fSizeLabel" for="ftextDistance">Distance(cm)</label>
+
+                    <textarea id="ftextTemp" name="string" rows="1" readonly>°C</textarea>
+                    <label id="fSizeLabel" for="ftextTemp">Temp(°C)</label>
+
+                    <input checked="ultraSonicToggled" type="checkbox" class="collapsible"
+                        onclick="toggleOLEDUltraSonicDisplay()">OLED Print enabled</input>
+                    <button id="submitBtn" type="submit">Do Read</button>
+                </form>
+            </div>
+
+            <!--Get Ultrasonic reading-->
+            <div id="accMagReading">
+                <form id="accMagReadingForm" <label id="fname">Accelero/Magneto(meter) & compass Reading</label><br>
+
+                    <textarea id="ftextAccel" name="string" rows="1" readonly>M/s</textarea>
+                    <label id="fSizeLabel" for="ftextAccel">Vector(X,Y,Z)</label>
+
+                    <textarea id="ftextMag" name="string" rows="1" readonly>Φ</textarea>
+                    <label id="fSizeLabel" for="ftextMag">Vector(X,Y,Z)</label>
+
+                    <textarea id="ftextHeading" name="string" rows="1" readonly>°</textarea>
+                    <label id="fSizeLabel" for="ftextMag">Deg(°)</label>
+
+                    <input checked="ftextMagToggled" type="checkbox" class="collapsible"
+                        onclick="toggleOLEDAccMagDisplay()">OLED Print enabled</input>
+                    <button id="submitBtn" type="submit">Do Read</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="grid2-container">
+            <!--Four wheeled drive control-->
+            <div id="FourWDControl">
+                <form id="FourWDControlForm" <label id="fname">Four wheel drive control</label><br>
+                    <li>XXA: Accelerate</li>
+                    <li>XXB: Back</li>
+                    <div id="FRAorFRB">
+                        <input id="FRAToggle" type="checkbox" onclick="toggleFRA()">FRA</input>
+                        <input id="FRBToggle" type="checkbox" onclick="toggleFRB()">FRB</input>
+                        <i> Front right motor </i>
+                    </div>
+
+                    <div id="FLAorFLB">
+                        <input id="FLAToggle" type="checkbox" onclick="toggleFLA()">FLA</input>
+                        <input id="FLBToggle" type="checkbox" onclick="toggleFLB()">FLB</input>
+                        <i>Front left motor</i>
+                    </div>
+                    <div id="BRAorBRB">
+                        <input id="BRAToggle" type="checkbox" onclick="toggleBRA()">BRA</input>
+                        <input id="BRBToggle" type="checkbox" onclick="toggleBRB()">BRB</input>
+                        <i> Back right motor</i>
+                    </div>
+                    <div id="BLAorBLB">
+                        <input id="BLAToggle" type="checkbox" onclick="toggleBLA()">BLA</input>
+                        <input id="BLBToggle" type="checkbox" onclick="toggleBLB()">BLB</input>
+                        <i> Back left motor</i>
+                    </div>
+                    <b>Presets</b>
+                    <div id="presets">
+                        <input id="PresetForward" type="button" onclick="ResetAll()"> <b>RESET</b></input>
+                        <input id="PresetForward" type="button" onclick="Forwards()"> Forward</input>
+                        <input id="PresetBackwards" type="button" onclick="Backwards()"> Backward</input>
+                        <input id="PresetRotLeft" type="button" onclick="RotLeft()"> RotateLeft</input>
+                        <input id="PresetRotRight" type="button" onclick="RotRight()"> RotateRight</input>
+                    </div>
+                    <div id="duratationContainer">
+                        <input type="range" step="1.0" min="100" max="10000" name="duration" id="duration" value="500"
+                            onChange="onValueRangeChange(this.value,'#FourWDControl #FourWDControlForm #duratationContainer #durationLabel', 'Duration (', ')ms')">
+                        <label id="durationLabel" for="duration">Duration(500)ms</label>
+                    </div>
+                    <div id="speedContainer">
+                        <input type="range" step="1.0" min="1" max="255" name="speed" id="speed" value="50"
+                            onChange="onValueRangeChange(this.value,'#FourWDControl #FourWDControlForm #speedContainer #speedLabel', 'Speed (', ')')">
+                        <label id="speedLabel" for="speed">Speed(100)</label>
+                    </div>
+                    <button id="submitBtn" type="submit">Do current Manoeuvre</button>
+                </form>
+            </div>
+
+            <!--Four wheeled drive control-->
+            <div id="DOF6ArmControl">
+                <form id="DOF6ArmControlForm" <label id="fname">6 DOF (Degrees of freedom) robotic arm control
+                    </label><br>
+                    <div id="BaseContainer">
+                        <input type="range" step="1.0" min="0" max="179" id="base" name="base" id="base" value="90"
+                            onChange="onValueRangeChange(this.value,'#DOF6ArmControl #DOF6ArmControlForm #BaseContainer #baseLabel', 'Angle (', ')')">
+                        <label id="baseLabel" for="base">Angle(90)</label>
+                        <input id="BaseToggle" type="checkbox">Base</input>
+                    </div>
+                    <div id="BaseTiltContainer">
+                        <input type="range" step="1.0" min="0" max="179" id="baseTilt" name="baseTilt" value="90"
+                            onChange="onValueRangeChange(this.value,'#DOF6ArmControl #DOF6ArmControlForm #BaseTiltContainer #baseTiltLabel', 'Angle (', ')')">
+                        <label id="baseTiltLabel" for="baseTilt">Angle(90)</label>
+                        <input id="BaseTiltToggle" type="checkbox">Base Tilt</input>
+                    </div>
+                    <div id="ElbowContainer">
+                        <input type="range" step="1.0" min="0" max="179" id="elbow" name="elbow" value="90"
+                            onChange="onValueRangeChange(this.value,'#DOF6ArmControl #DOF6ArmControlForm #ElbowContainer #elbowLabel', 'Angle (', ')')">
+                        <label id="elbowLabel" for="elbow">Angle(90)</label>
+                        <input id="ElbowAngToggle" type="checkbox">Elbow </input>
+                    </div>
+                    <div id="WristElevateContainer">
+                        <input type="range" step="1.0" min="0" max="179" id="wristElavate" name="wristElavate"
+                            value="90"
+                            onChange="onValueRangeChange(this.value,'#DOF6ArmControl #DOF6ArmControlForm #WristElevateContainer #wristElevateLabel', 'Angle (', ')')">
+                        <label id="wristElevateLabel" for="wristElavate">Angle(90)</label>
+                        <input id="WristElavateToggle" type="checkbox">Wrist
+                        Elevate</input>
+                    </div>
+                    <div id="WristRotateContainer">
+                        <input type="range" step="1.0" min="0" max="179" id="wristRotate" name="wristRotate" value="90"
+                            onChange="onValueRangeChange(this.value,'#DOF6ArmControl #DOF6ArmControlForm #WristRotateContainer #wristRotateLabel', 'Angle (', ')')">
+                        <label id="wristRotateLabel" for="wristRotate">Angle(90)</label>
+                        <input id="WristRotateToggle" type="checkbox">Wrist
+                        Rotate</input>
+                    </div>
+                    <div id="ClawContainer">
+                        <input type="range" step="1.0" min="0" max="179" id="claw" name="claw" value="90"
+                            onChange="onValueRangeChange(this.value,'#DOF6ArmControl #DOF6ArmControlForm #ClawContainer #clawLabel', 'Angle (', ')')">
+                        <label id="clawLabel" for="claw">Angle(90)</label>
+                        <input id="clawToggle" type="checkbox">Claw</input>
+                    </div>
+
+                    <button id="submitBtn" type="submit">Do Arm Action</button>
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>
