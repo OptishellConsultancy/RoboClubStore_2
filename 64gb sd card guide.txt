@@ -1,0 +1,7 @@
+
+64GB and larger need exfat formatting before write!!
+https://www.diskpart.com/articles/format-sd-card-to-exfat-3889.html
+
+MUST use etcher for this
+https://magpi.raspberrypi.com/articles/pi-sd-etcher
+https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-64-bit
