@@ -3,9 +3,9 @@ https://tmuxcheatsheet.com/
 
 NOTE: kill the webserver of the normal auto-booted SAMUEL runtime before running this 
 
-cd /home/pi/RoboClubStore
+cd /home/pi/RoboClubStore_2
 sudo bash ./MultiPurposePlatform/web/killWebServer.sh 2223
-cd /home/pi/Desktop/3DPRINTING
+cd /home/pi/RoboClubStore_2/3DPRINTING
 
 //-------------------------------
 Setup octoprint as service:
@@ -19,6 +19,14 @@ https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running
 Run using:
 cd OctoPrint
 venv/bin/octoprint serve 
+
+Summary install:
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install -U --force pip
+pip install --upgrade pip wheel
+pip install octoprint
+
 
 To install on the venv:
 cd OctoPrint/venv
@@ -58,34 +66,16 @@ sudo apt-get install motion
 sudo apt install v4l-utils
 //---------------------------
 
-
-MJPESTREAMER
-https://github.com/jacksonliam/mjpg-streamer/blob/master/mjpg-streamer-experimental/plugins/input_uvc/README.md
+ustreamer
 //---------------------------
-apt-get update
-apt-get install git libv4l-dev libjpeg8-dev imagemagick cmake -y
-git clone git@github.com:jacksonliam/mjpg-streamer.git ~/mjpg-streamer
-cd ~/mjpg-streamer/mjpg-streamer-experimental
-make USE_LIBV4L2=true clean all
-sudo make DESTDIR=/usr install
+cd ustreamer
+https://github.com/pikvm/ustreamer
 
-cd ~/mjpg-streamer/mjpg-streamer-experimental/
-NOTE: setting -f (fps) disabled mpeg low cpu option
-mjpg_streamer -i "input_uvc.so -f 30 -r 1920x1080 -d /dev/video0" -o "output_http.so -p 15151 -w ./www"
-mjpg_streamer -i "input_uvc.so -f 30 -r 1920x1080 -d /dev/video2" -o "output_http.so -p 15151 -w ./www"
-mjpg_streamer -i "input_uvc.so -f 30 -r 1920x1080 -d /dev/video3" -o "output_http.so -p 15151 -w ./www"
+./ustreamer --device=/dev/video0 --host=0.0.0.0 --port=15151
 
-HD Pro Webcam C920
-
- (As per this guide to reduce CPU usage https://community.octoprint.org/t/i-see-high-cpu-usage-when-mjpg-streamer-is-running/202) -> v4l2-ctl --all
-
-mjpg_streamer -i "input_uvc.so  -r 1920x1080 -d /dev/video0" -o "output_http.so -p 15151 -w ./www"
-
-https://github.com/jacksonliam/mjpg-streamer/blob/master/mjpg-streamer-experimental/plugins/input_uvc/README.md
-
-https://github.com/jacksonliam/mjpg-streamer/blob/master/mjpg-streamer-experimental/plugins/output_http/README.md
+http://optishell.duckdns.org:15151/?action=stream
+http://jamiespi:15151/?action=snapshot
 //---------------------------
-
 tmux order of exec:
 first tmux new -> end samual runtime as above, run camera stream
 second tmux new - > run octoprint as above

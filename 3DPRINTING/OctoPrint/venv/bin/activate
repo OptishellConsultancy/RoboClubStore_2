@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/pi/Desktop/3DPRINTING/OctoPrint/venv"
+VIRTUAL_ENV="/home/pi/RoboClubStore_2/3DPRINTING/OctoPrint/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
