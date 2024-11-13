@@ -43,6 +43,8 @@ whereis ffmpeg => should be /usr/bin/ffmpeg
 See ffmpegLoc.png for where to put this path on octoprint
 //----------------------------------
 
+Tmux Cheat Sheet & Quick Reference
+https://tmuxcheatsheet.com/
 
 Next install creality plugins: https://www.crealitycloud.com/post-detail/6225cf9dfc277e6f868d53ea IGNORE UPDATE REQUESTS!
 https://plugins.octoprint.org/plugins/crealitycloud/
@@ -99,3 +101,9 @@ http://optishell.duckdns.org:15151/0/action/snapshot
 //-----------------------------------------
 GCODE BED VISUALISER
 https://github.com/jneilliii/OctoPrint-BedLevelVisualizer/blob/master/wiki/gcode-examples.md
+
+
+Startup script additions:
+sudo nano /etc/profile 
+cd /home/pi/RoboClubStore_2/3DPRINTING/OctoPrint && venv/bin/octoprint serve &
+cd /home/pi/RoboClubStore_2/3DPRINTING/ustreamer/ && ./ustreamer --device=/dev/video0 --host=0.0.0.0 --port=15151 &
