@@ -105,5 +105,35 @@ https://github.com/jneilliii/OctoPrint-BedLevelVisualizer/blob/master/wiki/gcode
 
 Startup script additions:
 sudo nano /etc/profile 
-cd /home/pi/RoboClubStore_2/3DPRINTING/OctoPrint && venv/bin/octoprint serve &
 cd /home/pi/RoboClubStore_2/3DPRINTING/ustreamer/ && ./ustreamer --device=/dev/video0 --host=0.0.0.0 --port=15151 &
+
+
+Octoprint as service:
+//------------------------------------------------------------
+Add this to /etc/systemd/system/octoprint.service 
+
+
+[Unit]
+Description=Octoprint
+After=network.target
+
+[Service]
+ExecStart=/home/pi/RoboClubStore_2/3DPRINTING/OctoPrint/venv/bin/octoprint serve
+WorkingDirectory=/home/pi/RoboClubStore_2/3DPRINTING/OctoPrint
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+CPUSchedulingPolicy=rr
+CPUSchedulingPriority=80
+
+[Install]
+WantedBy=multi-user.target
+//--------------------
+
+Then run
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable octoprint
+//------------------------------------------------------------
