@@ -2,6 +2,12 @@ https://github.com/signag/raspi-cam-srv fully guide here
 
 All steps 1-10 are standard things.
 
+
+
 start the server with :
+
+cd raspi-cam-srcTest/raspi-cam-srv/
+source .venv/bin/activate
+
 flask --app raspiCamSrv run --port 5000 --host=0.0.0.0
 http://locahost:5000

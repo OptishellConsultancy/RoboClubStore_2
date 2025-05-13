@@ -1,0 +1,9 @@
+https://stereopi.com/blog/ros-simple-depth-map-using-raspberry-pi
+https://www.tomshardware.com/raspberry-pi/how-to-use-dual-cameras-on-the-raspberry-pi-5
+
+https://github.com/erget/StereoVision :
+https://stereopi.com/blog/opencv-and-depth-map-stereopi-tutorial
+To take basci test pics:
+
+libcamera-jpeg -o cam0.jpg –camera 0 -t 5000
+libcamera-jpeg -o cam0.jpg –camera 1 -t 5000
