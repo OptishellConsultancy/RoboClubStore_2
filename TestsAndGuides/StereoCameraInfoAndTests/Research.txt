@@ -1,9 +1,51 @@
 https://stereopi.com/blog/ros-simple-depth-map-using-raspberry-pi
 https://www.tomshardware.com/raspberry-pi/how-to-use-dual-cameras-on-the-raspberry-pi-5
-
+//-------------------------------------------------------------------------------------------------------------
 https://github.com/erget/StereoVision :
 https://stereopi.com/blog/opencv-and-depth-map-stereopi-tutorial
+https://erget.wordpress.com/2014/02/28/calibrating-a-stereo-pair-with-python/
+
+//-------------------------------------------------------------------------------------------------------------
 To take basci test pics:
 
 libcamera-jpeg -o cam0.jpg –camera 0 -t 5000
 libcamera-jpeg -o cam0.jpg –camera 1 -t 5000
+
+//-------------------------------------------------------------------------------------------------------------
+
+https://albertarmea.com/post/opencv-stereo-camera/
+https://erget.wordpress.com/2014/03/13/building-an-interactive-gui-with-opencv/
+Led to this : https://erget.github.io/StereoVision/ (https://erget.github.io/StereoVision/)
+
+Another guide: https://aryanvij02.medium.com/stereo-vision-making-a-depth-map-from-scratch-6cd25c82897a
+
+Create environment:
+https://docs.python.org/3/library/venv.html
+
+E.g:
+cd  TestVenv
+python3 -m venv .venv
+source .venv/bin/activate
+
+sudo chown -R pi:pi TestVenv/ (if running this command, do a source again after)
+
+
+Needed packages:cd 
+pip3 install StereoVision
+
+
+//-------------------------------------------------------------------------------------------------------------
+
+The above looks like a a bit of mess, so... another guide: https://docs.luxonis.com/software/depthai/examples/stereo_depth_video/
+
+
+sudo git clone https://github.com/luxonis/depthai-python.git
+cd depthai-python/examples
+python3 install_requirements.py    (if failure: run : sudo chown -R pi:pi TestVenv/)
+
+See examples, e.g:
+TestVenv/depthai-python/examples/StereoDepth/depth_colormap.py
+
+Note, will probably get the following error:
+RuntimeError: Cannot find any device with given deviceInfo
+//-------------------------------------------------------------------------------------------------------------
